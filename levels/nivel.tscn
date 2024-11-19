@@ -1,0 +1,200 @@
+[gd_scene load_steps=14 format=3 uid="uid://csfodj23bkdek"]
+
+[ext_resource type="Texture2D" uid="uid://ytkpuhv2128q" path="res://sprites/grass.png" id="1_hq4ru"]
+[ext_resource type="PackedScene" uid="uid://hsdubo0msinf" path="res://entidades/llave.tscn" id="2_1hm4i"]
+[ext_resource type="Texture2D" uid="uid://db5l6nnw543jb" path="res://sprites/cafe.png" id="3_porw3"]
+[ext_resource type="Texture2D" uid="uid://cw3o8hye8ajbp" path="res://sprites/objects/candado.png" id="4_5xwia"]
+[ext_resource type="Texture2D" uid="uid://pvr4i88gfbw6" path="res://sprites/objects/candado_abierto.png" id="4_8ktgv"]
+[ext_resource type="PackedScene" uid="uid://bxcqst7b1yvld" path="res://entidades/player.tscn" id="5_xndhl"]
+[ext_resource type="PackedScene" uid="uid://crb6ykq60wh1s" path="res://entidades/enemy.tscn" id="7_qqr4v"]
+
+[sub_resource type="Animation" id="Animation_1vlsm"]
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 0.552779)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0333333, 0.333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -114.488)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../candado:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0333333, 0.333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("4_5xwia"), ExtResource("4_8ktgv")]
+}
+
+[sub_resource type="Animation" id="Animation_nywn0"]
+resource_name = "open"
+length = 2.0
+
+[sub_resource type="Animation" id="Animation_6pwoq"]
+resource_name = "open1"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 0.552779)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0333333, 0.333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -114.488)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../candado:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0333333, 0.333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("4_5xwia"), ExtResource("4_8ktgv")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_icyj0"]
+_data = {
+"RESET": SubResource("Animation_1vlsm"),
+"open": SubResource("Animation_nywn0"),
+"open1": SubResource("Animation_6pwoq")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qsnh0"]
+size = Vector2(515.551, 508.624)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g126e"]
+size = Vector2(16.0331, 16.3855)
+
+[node name="Nivel" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="llave" parent="CanvasLayer" node_paths=PackedStringArray("anim") instance=ExtResource("2_1hm4i")]
+position = Vector2(340, 814)
+scale = Vector2(3.61833, 4.22416)
+anim = NodePath("../puerta/AnimationPlayer")
+
+[node name="puerta" type="Node2D" parent="CanvasLayer"]
+position = Vector2(635, 539)
+scale = Vector2(0.293768, 1.67484)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/puerta" groups=["llave"]]
+root_node = NodePath("../puerta")
+libraries = {
+"": SubResource("AnimationLibrary_icyj0")
+}
+
+[node name="puerta" type="Sprite2D" parent="CanvasLayer/puerta"]
+texture = ExtResource("3_porw3")
+
+[node name="Area2D" type="StaticBody2D" parent="CanvasLayer/puerta/puerta"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/puerta/puerta/Area2D"]
+position = Vector2(0.000244141, 0.310516)
+shape = SubResource("RectangleShape2D_qsnh0")
+
+[node name="candado" type="Sprite2D" parent="CanvasLayer/puerta"]
+position = Vector2(4.15771, -65.8292)
+scale = Vector2(1.68977, 0.315968)
+texture = ExtResource("4_8ktgv")
+
+[node name="player" parent="CanvasLayer" node_paths=PackedStringArray("anim") instance=ExtResource("5_xndhl")]
+position = Vector2(176, 280)
+scale = Vector2(6.28709, 6.76395)
+speed = 400.0
+anim = NodePath("../puerta/AnimationPlayer")
+
+[node name="paredes" type="Node2D" parent="CanvasLayer"]
+
+[node name="pared" type="Sprite2D" parent="CanvasLayer/paredes"]
+position = Vector2(953, 72)
+scale = Vector2(121.2, 8.11127)
+texture = ExtResource("1_hq4ru")
+
+[node name="static" type="StaticBody2D" parent="CanvasLayer/paredes/pared"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/paredes/pared/static"]
+position = Vector2(-0.0165267, -0.240963)
+scale = Vector2(0.999999, 1)
+shape = SubResource("RectangleShape2D_g126e")
+
+[node name="pared2" type="Sprite2D" parent="CanvasLayer/paredes"]
+position = Vector2(961, 1012)
+scale = Vector2(121.2, 8.11127)
+texture = ExtResource("1_hq4ru")
+
+[node name="static" type="StaticBody2D" parent="CanvasLayer/paredes/pared2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/paredes/pared2/static"]
+position = Vector2(-0.0165267, -0.240963)
+scale = Vector2(0.999999, 1)
+shape = SubResource("RectangleShape2D_g126e")
+
+[node name="pared3" type="Sprite2D" parent="CanvasLayer/paredes"]
+position = Vector2(48, 540)
+rotation = 1.5708
+scale = Vector2(49.8942, 8.11127)
+texture = ExtResource("1_hq4ru")
+
+[node name="static" type="StaticBody2D" parent="CanvasLayer/paredes/pared3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/paredes/pared3/static"]
+position = Vector2(-0.0165267, -0.240963)
+scale = Vector2(0.999999, 1)
+shape = SubResource("RectangleShape2D_g126e")
+
+[node name="pared4" type="Sprite2D" parent="CanvasLayer/paredes"]
+position = Vector2(1844, 536)
+rotation = 1.5708
+scale = Vector2(49.8942, 8.11127)
+texture = ExtResource("1_hq4ru")
+
+[node name="static" type="StaticBody2D" parent="CanvasLayer/paredes/pared4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/paredes/pared4/static"]
+position = Vector2(-0.0165267, -0.240963)
+scale = Vector2(0.999999, 1)
+shape = SubResource("RectangleShape2D_g126e")
+
+[node name="enemy" parent="." instance=ExtResource("7_qqr4v")]
+position = Vector2(1600, 766)
+scale = Vector2(7.73083, 7.36997)
