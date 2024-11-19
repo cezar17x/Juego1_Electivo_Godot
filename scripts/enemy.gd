@@ -11,8 +11,13 @@ var can_take_damage = true
 @warning_ignore("unused_parameter")
 func _physics_process(delta):
 	if player_chase:
-		position += (player.position -position)/speed
-
+		
+		var direction = (player.global_position - global_position).normalized()
+		
+		velocity = direction * speed
+		
+		move_and_slide()
+		
 		$AnimatedSprite2D.play("walk")
 		
 		if (player.position.x - position.x) < 0:
@@ -24,13 +29,14 @@ func _physics_process(delta):
 		$AnimatedSprite2D.play("idle")
 
 
-func _on_detection_area_body_entered(body):
+func _on_detection_area_body_entered(body: Node2D):
 	player = body
 	player_chase = true
+	print("entro")
 
 
 @warning_ignore("unused_parameter")
-func _on_detection_area_body_exited(body):
+func _on_detection_area_body_exited(body: Node2D):
 	player = null
 	player_chase = false
 	

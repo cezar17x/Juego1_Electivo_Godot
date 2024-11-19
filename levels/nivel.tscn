@@ -1,5 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://csfodj23bkdek"]
+[gd_scene load_steps=19 format=3 uid="uid://csfodj23bkdek"]
 
+[ext_resource type="Script" path="res://scripts/nivel.gd" id="1_aumfl"]
 [ext_resource type="Texture2D" uid="uid://ytkpuhv2128q" path="res://sprites/grass.png" id="1_hq4ru"]
 [ext_resource type="PackedScene" uid="uid://hsdubo0msinf" path="res://entidades/llave.tscn" id="2_1hm4i"]
 [ext_resource type="Texture2D" uid="uid://db5l6nnw543jb" path="res://sprites/cafe.png" id="3_porw3"]
@@ -7,6 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://pvr4i88gfbw6" path="res://sprites/objects/candado_abierto.png" id="4_8ktgv"]
 [ext_resource type="PackedScene" uid="uid://bxcqst7b1yvld" path="res://entidades/player.tscn" id="5_xndhl"]
 [ext_resource type="PackedScene" uid="uid://crb6ykq60wh1s" path="res://entidades/enemy.tscn" id="7_qqr4v"]
+[ext_resource type="Texture2D" uid="uid://bheftvooskj1a" path="res://sprites/star.png" id="9_v4ulr"]
+[ext_resource type="PackedScene" uid="uid://1oyp2njtsh1o" path="res://UI/pausa.tscn" id="10_j3c0s"]
+[ext_resource type="PackedScene" uid="uid://ditlsyhqu74t3" path="res://UI/lose.tscn" id="11_632i7"]
 
 [sub_resource type="Animation" id="Animation_1vlsm"]
 length = 2.0
@@ -104,97 +108,122 @@ size = Vector2(515.551, 508.624)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g126e"]
 size = Vector2(16.0331, 16.3855)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_qgdk1"]
+radius = 20.1928
+
 [node name="Nivel" type="Node2D"]
+script = ExtResource("1_aumfl")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Game" type="CanvasLayer" parent="."]
 
-[node name="llave" parent="CanvasLayer" node_paths=PackedStringArray("anim") instance=ExtResource("2_1hm4i")]
+[node name="llave" parent="Game" node_paths=PackedStringArray("anim") instance=ExtResource("2_1hm4i")]
 position = Vector2(340, 814)
 scale = Vector2(3.61833, 4.22416)
 anim = NodePath("../puerta/AnimationPlayer")
 
-[node name="puerta" type="Node2D" parent="CanvasLayer"]
+[node name="puerta" type="Node2D" parent="Game"]
 position = Vector2(635, 539)
 scale = Vector2(0.293768, 1.67484)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/puerta" groups=["llave"]]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Game/puerta" groups=["llave"]]
 root_node = NodePath("../puerta")
 libraries = {
 "": SubResource("AnimationLibrary_icyj0")
 }
 
-[node name="puerta" type="Sprite2D" parent="CanvasLayer/puerta"]
+[node name="puerta" type="Sprite2D" parent="Game/puerta"]
 texture = ExtResource("3_porw3")
 
-[node name="Area2D" type="StaticBody2D" parent="CanvasLayer/puerta/puerta"]
+[node name="Area2D" type="StaticBody2D" parent="Game/puerta/puerta"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/puerta/puerta/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/puerta/puerta/Area2D"]
 position = Vector2(0.000244141, 0.310516)
 shape = SubResource("RectangleShape2D_qsnh0")
 
-[node name="candado" type="Sprite2D" parent="CanvasLayer/puerta"]
+[node name="candado" type="Sprite2D" parent="Game/puerta"]
 position = Vector2(4.15771, -65.8292)
 scale = Vector2(1.68977, 0.315968)
 texture = ExtResource("4_8ktgv")
 
-[node name="player" parent="CanvasLayer" node_paths=PackedStringArray("anim") instance=ExtResource("5_xndhl")]
+[node name="player" parent="Game" node_paths=PackedStringArray("anim") instance=ExtResource("5_xndhl")]
 position = Vector2(176, 280)
 scale = Vector2(6.28709, 6.76395)
 speed = 400.0
 anim = NodePath("../puerta/AnimationPlayer")
 
-[node name="paredes" type="Node2D" parent="CanvasLayer"]
+[node name="paredes" type="Node2D" parent="Game"]
 
-[node name="pared" type="Sprite2D" parent="CanvasLayer/paredes"]
+[node name="pared" type="Sprite2D" parent="Game/paredes"]
 position = Vector2(953, 72)
 scale = Vector2(121.2, 8.11127)
 texture = ExtResource("1_hq4ru")
 
-[node name="static" type="StaticBody2D" parent="CanvasLayer/paredes/pared"]
+[node name="static" type="StaticBody2D" parent="Game/paredes/pared"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/paredes/pared/static"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/paredes/pared/static"]
 position = Vector2(-0.0165267, -0.240963)
 scale = Vector2(0.999999, 1)
 shape = SubResource("RectangleShape2D_g126e")
 
-[node name="pared2" type="Sprite2D" parent="CanvasLayer/paredes"]
+[node name="pared2" type="Sprite2D" parent="Game/paredes"]
 position = Vector2(961, 1012)
 scale = Vector2(121.2, 8.11127)
 texture = ExtResource("1_hq4ru")
 
-[node name="static" type="StaticBody2D" parent="CanvasLayer/paredes/pared2"]
+[node name="static" type="StaticBody2D" parent="Game/paredes/pared2"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/paredes/pared2/static"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/paredes/pared2/static"]
 position = Vector2(-0.0165267, -0.240963)
 scale = Vector2(0.999999, 1)
 shape = SubResource("RectangleShape2D_g126e")
 
-[node name="pared3" type="Sprite2D" parent="CanvasLayer/paredes"]
+[node name="pared3" type="Sprite2D" parent="Game/paredes"]
 position = Vector2(48, 540)
 rotation = 1.5708
-scale = Vector2(49.8942, 8.11127)
+scale = Vector2(50.7342, 8.11127)
 texture = ExtResource("1_hq4ru")
 
-[node name="static" type="StaticBody2D" parent="CanvasLayer/paredes/pared3"]
+[node name="static" type="StaticBody2D" parent="Game/paredes/pared3"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/paredes/pared3/static"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/paredes/pared3/static"]
 position = Vector2(-0.0165267, -0.240963)
 scale = Vector2(0.999999, 1)
 shape = SubResource("RectangleShape2D_g126e")
 
-[node name="pared4" type="Sprite2D" parent="CanvasLayer/paredes"]
+[node name="pared4" type="Sprite2D" parent="Game/paredes"]
 position = Vector2(1844, 536)
 rotation = 1.5708
 scale = Vector2(49.8942, 8.11127)
 texture = ExtResource("1_hq4ru")
 
-[node name="static" type="StaticBody2D" parent="CanvasLayer/paredes/pared4"]
+[node name="static" type="StaticBody2D" parent="Game/paredes/pared4"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/paredes/pared4/static"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/paredes/pared4/static"]
 position = Vector2(-0.0165267, -0.240963)
 scale = Vector2(0.999999, 1)
 shape = SubResource("RectangleShape2D_g126e")
 
-[node name="enemy" parent="." instance=ExtResource("7_qqr4v")]
+[node name="enemy" parent="Game" instance=ExtResource("7_qqr4v")]
 position = Vector2(1600, 766)
 scale = Vector2(7.73083, 7.36997)
+
+[node name="estrella" type="Area2D" parent="Game"]
+position = Vector2(1699, 203)
+scale = Vector2(0.250157, 0.20854)
+
+[node name="Sprite2D" type="Sprite2D" parent="Game/estrella"]
+texture = ExtResource("9_v4ulr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/estrella"]
+scale = Vector2(12.7486, 14.9726)
+shape = SubResource("CircleShape2D_qgdk1")
+
+[node name="UI" type="CanvasLayer" parent="Game"]
+
+[node name="pausa" parent="Game/UI" instance=ExtResource("10_j3c0s")]
+visible = false
+
+[node name="lose" parent="Game/UI" instance=ExtResource("11_632i7")]
+visible = false
+
+[connection signal="area_entered" from="Game/estrella" to="Game/player" method="_on_estrella_area_entered"]

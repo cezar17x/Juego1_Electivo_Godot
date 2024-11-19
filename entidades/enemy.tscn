@@ -144,12 +144,12 @@ shape = SubResource("CircleShape2D_c67x8")
 
 [node name="detection_area" type="Area2D" parent="."]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="detection_area"]
 shape = SubResource("CircleShape2D_f52vw")
 
-[node name="enemy_hitbox" type="Area2D" parent="."]
+[node name="enemy_hitbox" type="Area2D" parent="." groups=["enemy"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox"]
 position = Vector2(0, -3)

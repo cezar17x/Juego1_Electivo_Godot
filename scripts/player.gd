@@ -5,6 +5,7 @@ var direction: Vector2 = Vector2.ZERO
 @export var speed: float = 200.0
 @export var anim: AnimationPlayer
 @export var characteranim: AnimatedSprite2D
+@onready var lose: Control = $"../UI/lose"
 
 func get_input():
 	direction.x = Input.get_axis("left", "right")
@@ -33,3 +34,11 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("llave"):
 		area.queue_free()
 		anim.play("open1")
+	if area.is_in_group("enemy"):
+		queue_free()
+		lose.visible = true
+
+
+@warning_ignore("unused_parameter")
+func _on_estrella_area_entered(area: Area2D) -> void:
+	get_tree().reload_current_scene()
